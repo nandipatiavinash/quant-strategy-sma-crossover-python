@@ -35,12 +35,15 @@ Calculates a comprehensive set of performance metrics, including:
 - Calmar Ratio
 
 ### Rich Visualizations
-Generates a suite of plots saved to the `outputs/` directory for easy analysis:
+The `visualization.py` module generates comprehensive plots for analysis:
 - **Price Chart with MA & Signals**: Visualizes entry and exit points on the price chart
 - **Equity Curve**: Tracks portfolio value growth over the backtest period
 - **Drawdown Plot**: Highlights periods of portfolio value decline
 - **Monthly Returns Heatmap**: Shows strategy performance on a month-by-month basis
 - **Trade Analysis**: Provides insights into the distribution of profitable vs. losing trades
+
+### Interactive Analysis
+- **Jupyter Notebook**: Use `notebooks/analysis.ipynb` for interactive exploration and custom analysis
 
 ## 📂 Repository Structure
 
