@@ -1,0 +1,35 @@
+# Moving Average Crossover Backtesting Configuration
+
+# Trading Strategy Parameters
+strategy:
+  short_ma_period: 20          # Short-term moving average period (days)
+  long_ma_period: 50           # Long-term moving average period (days)
+  ma_type: "SMA"               # Moving average type: SMA (Simple) or EMA (Exponential)
+
+# Backtesting Parameters
+backtest:
+  start_date: "2020-01-01"     # Start date for backtesting (YYYY-MM-DD)
+  end_date: "2024-01-01"       # End date for backtesting (YYYY-MM-DD)
+  initial_capital: 10000       # Starting capital in USD
+  position_size: 1.0           # Fraction of capital to invest (0.1 = 10%, 1.0 = 100%)
+  transaction_cost: 0.001      # Transaction cost as fraction (0.001 = 0.1%)
+  
+# Stock Selection
+stock:
+  symbol: "AAPL"               # Stock ticker symbol
+  
+# Data Source
+data:
+  source: "yahoo"              # Data source (yahoo, alpha_vantage, etc.)
+  
+# Output Settings
+output:
+  save_results: true           # Save results to CSV
+  save_plots: true             # Save plots as images
+  results_dir: "data/"         # Directory to save results
+  
+# Risk Management (Optional)
+risk:
+  max_drawdown: 0.20           # Maximum allowable drawdown (20%)
+  stop_loss: null              # Stop loss percentage (null = disabled)
+  take_profit: null            # Take profit percentage (null = disabled)

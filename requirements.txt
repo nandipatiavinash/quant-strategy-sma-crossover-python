@@ -1,0 +1,13 @@
+# Core dependencies for Moving Average Crossover Backtesting
+yfinance>=0.2.18
+pandas>=1.5.0
+numpy>=1.24.0
+matplotlib>=3.6.0
+seaborn>=0.12.0
+PyYAML>=6.0
+scipy>=1.10.0
+
+# Optional dependencies for enhanced analysis
+jupyter>=1.0.0
+plotly>=5.15.0
+ta>=0.10.0
