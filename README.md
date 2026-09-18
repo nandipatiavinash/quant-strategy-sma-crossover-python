@@ -1,194 +1,196 @@
-# Python Backtesting Engine for Moving Average Crossover Strategy
+# Quant Strategy Backtester — Moving Average Crossover
 
-A robust, event-driven backtesting system built in Python to evaluate the performance of Moving Average (MA) Crossover trading strategies (SMA/EMA). This tool allows you to simulate trades on historical stock data, incorporating realistic factors like transaction costs and slippage, to gauge a strategy's viability before live deployment.
+A Python-based, event-driven backtesting engine for evaluating moving-average trading strategies against historical market data.
 
-## 🎯 Purpose
+The project focuses on **quantitative analysis, realistic trade simulation, portfolio performance, and risk measurement** rather than simply generating buy/sell signals.
 
-The primary goal of this project is to provide a reliable framework for quantitative analysis of the popular Moving Average Crossover strategy. By backtesting against historical data, users can:
+> **Scope:** This is a research and educational backtesting project. Historical backtest results do not guarantee future performance and should not be interpreted as investment advice.
 
-- **Evaluate Profitability**: Determine if the strategy generates positive returns over a specified period
-- **Assess Risk**: Analyze key risk metrics like Maximum Drawdown, Sharpe Ratio, and Sortino Ratio
-- **Optimize Parameters**: Test different MA periods (e.g., 50 vs. 200, 20 vs. 50) to find optimal settings for a given asset
-- **Build Confidence**: Gain data-driven insights before committing real capital
+## What it does
 
-## 📊 Key Features
+The engine lets you configure a trading strategy, simulate historical execution, and evaluate the resulting portfolio using return and risk metrics.
 
-### Data Fetching
-- Seamlessly downloads historical price data using the `yfinance` library
-
-### Flexible Strategy Implementation
-- Implements both Simple Moving Average (SMA) and Exponential Moving Average (EMA)
-- Generates "Golden Cross" (buy) signals when the short-term MA crosses above the long-term MA
-- Generates "Death Cross" (sell) signals when the short-term MA crosses below the long-term MA
-
-### Realistic Backtesting Engine
-- Simulates trade execution based on signals
-- Tracks portfolio value and equity curve over time
-- Accounts for transaction costs and slippage to provide a more accurate performance picture
-
-### In-Depth Performance Analysis
-Calculates a comprehensive set of performance metrics, including:
-- Compounded Annual Growth Rate (CAGR)
-- Sharpe Ratio & Sortino Ratio
-- Maximum Drawdown
-- Win Rate & Profit Factor
-- Calmar Ratio
-
-### Rich Visualizations
-The `visualization.py` module generates comprehensive plots for analysis:
-- **Price Chart with MA & Signals**: Visualizes entry and exit points on the price chart
-- **Equity Curve**: Tracks portfolio value growth over the backtest period
-- **Drawdown Plot**: Highlights periods of portfolio value decline
-- **Monthly Returns Heatmap**: Shows strategy performance on a month-by-month basis
-- **Trade Analysis**: Provides insights into the distribution of profitable vs. losing trades
-
-### Interactive Analysis
-- **Jupyter Notebook**: Use `notebooks/analysis.ipynb` for interactive exploration and custom analysis
-
-## 📂 Repository Structure
-
-The project is organized into logical modules for clarity and scalability.
-
+```text
+Historical Market Data
+        │
+        ▼
+   Data Handler
+        │
+        ▼
+ Moving Average Strategy
+     SMA / EMA
+        │
+        ▼
+    Trade Signals
+        │
+        ▼
+ Backtesting Engine
+  ├─ transaction costs
+  ├─ slippage
+  └─ portfolio state
+        │
+        ▼
+ Performance & Risk Analysis
+        │
+        ├─ CAGR
+        ├─ Sharpe Ratio
+        ├─ Sortino Ratio
+        ├─ Maximum Drawdown
+        ├─ Win Rate
+        ├─ Profit Factor
+        └─ Calmar Ratio
+        │
+        ▼
+ Visual Reports / Analysis Notebook
 ```
+
+## Key capabilities
+
+### Historical data
+
+- Downloads historical market data with `yfinance`
+- Supports configurable ticker and date ranges
+- Prepares time-series data for strategy evaluation
+
+### Strategy engine
+
+Implements:
+
+- Simple Moving Average (SMA)
+- Exponential Moving Average (EMA)
+- Configurable short and long windows
+- Golden-cross buy signals
+- Death-cross sell signals
+
+### Realistic execution model
+
+The simulator accounts for factors that can materially affect a backtest:
+
+- Transaction costs
+- Price slippage
+- Position state
+- Cash balance
+- Portfolio value
+- Equity curve
+
+### Risk and performance analysis
+
+The engine calculates:
+
+| Metric | Purpose |
+|---|---|
+| CAGR | Annualized compounded growth |
+| Sharpe Ratio | Return relative to volatility |
+| Sortino Ratio | Return relative to downside volatility |
+| Maximum Drawdown | Largest peak-to-trough decline |
+| Win Rate | Percentage of profitable trades |
+| Profit Factor | Gross profit relative to gross loss |
+| Calmar Ratio | Return relative to maximum drawdown |
+
+### Visual analysis
+
+Generated analysis can include:
+
+- Price with moving averages and trade signals
+- Portfolio equity curve
+- Drawdown over time
+- Monthly return heatmap
+- Trade outcome analysis
+
+A Jupyter notebook is also provided for interactive exploration.
+
+## Repository structure
+
+```text
 quant-strategy-sma-crossover-python/
-│
 ├── backtester/
-│   ├── __init__.py
-│   ├── engine.py           # Core backtesting logic
-│   ├── data_handler.py     # Fetches and prepares data
-│   ├── strategy.py         # Defines the MA Crossover strategy
-│   ├── portfolio.py        # Manages positions, cash, and portfolio value
-│   └── performance.py      # Calculates and displays performance metrics
-│
+│   ├── engine.py           # Core event-driven backtesting logic
+│   ├── data_handler.py     # Market data retrieval and preparation
+│   ├── strategy.py         # Moving-average strategy
+│   ├── portfolio.py        # Positions, cash and portfolio value
+│   └── performance.py      # Performance and risk metrics
 ├── configs/
-│   └── config.yaml         # Configuration file for backtest parameters
-│
-├── outputs/                # Directory for generated charts and reports
-│   └── (plots will be saved here)
-│
-├── main.py                 # Main script to run the backtest
-└── requirements.txt        # Python package dependencies
+│   └── config.yaml         # Backtest configuration
+├── notebooks/
+│   └── analysis.ipynb      # Interactive analysis
+├── outputs/                # Generated reports and visualizations
+├── main.py                 # Application entry point
+└── requirements.txt        # Python dependencies
 ```
 
-## ⚙️ Installation & Quickstart
+## Configuration
 
-Get the backtesting engine up and running in a few simple steps.
+Backtest parameters are defined in `configs/config.yaml`, allowing experiments without changing application code.
+
+Example:
+
+```yaml
+ticker: 'AAPL'
+start_date: '2018-01-01'
+end_date: '2023-12-31'
+strategy_name: 'MovingAverageCrossover'
+short_ma: 50
+long_ma: 200
+ma_type: 'SMA'
+initial_capital: 100000.0
+transaction_cost_pct: 0.001
+slippage_pct: 0.0005
+generate_plots: true
+```
+
+## Running locally
 
 ### Prerequisites
-- Python 3.8 or higher
-- pip and venv
 
-### 1. Clone the Repository
+- Python 3.8+
+- pip
+- venv
+
+### Setup
+
 ```bash
 git clone https://github.com/nandipatiavinash/quant-strategy-sma-crossover-python.git
 cd quant-strategy-sma-crossover-python
-```
 
-### 2. Create and Activate a Virtual Environment
-It's highly recommended to use a virtual environment to manage dependencies.
-
-**On macOS / Linux:**
-```bash
 python3 -m venv venv
 source venv/bin/activate
-```
 
-**On Windows:**
-```bash
-python -m venv venv
-.\venv\Scripts\activate
-```
-
-### 3. Install Required Packages
-Install all the necessary libraries from the `requirements.txt` file.
-
-```bash
 pip install -r requirements.txt
-```
-
-### 4. Run the Backtest
-Execute the `main.py` script to run a backtest using the default parameters defined in `configs/config.yaml`.
-
-```bash
 python main.py
 ```
 
-After the run completes, check the `outputs/` folder for the performance report and visualizations.
+Generated reports and charts are written to the `outputs/` directory when enabled.
 
-### 5. Run with Custom Parameters
-You can easily modify the backtest parameters by editing the `configs/config.yaml` file. No code changes are needed!
+## Dependencies
 
-## 🛠️ Configuration (configs/config.yaml)
+- pandas
+- numpy
+- yfinance
+- matplotlib
+- seaborn
+- scipy
+- openpyxl
+- pyyaml
 
-All backtest parameters are controlled via a simple YAML file. This allows for easy experimentation without touching the source code.
+## Research considerations
 
-```yaml
-# configs/config.yaml
+A backtest can be misleading if the methodology ignores execution costs, slippage, data quality, or the difference between in-sample and out-of-sample performance.
 
-# Data Parameters
-ticker: 'AAPL'          # Stock ticker symbol (e.g., 'GOOGL', 'MSFT', 'BTC-USD')
-start_date: '2018-01-01'
-end_date: '2023-12-31'
+This project therefore treats transaction costs and slippage as configurable inputs and exposes multiple risk metrics rather than relying on return alone.
 
-# Strategy Parameters
-strategy_name: 'MovingAverageCrossover'
-short_ma: 50              # Short-term moving average window
-long_ma: 200              # Long-term moving average window
-ma_type: 'SMA'            # Type of MA: 'SMA' or 'EMA'
+Potential extensions include:
 
-# Portfolio & Risk Parameters
-initial_capital: 100000.0 # Starting portfolio value in USD
-transaction_cost_pct: 0.001 # 0.1% cost per trade (e.g., broker fees)
-slippage_pct: 0.0005        # 0.05% price slippage per trade
+- RSI, MACD and Bollinger Bands
+- Parameter optimization
+- Walk-forward testing
+- Additional order types
+- Portfolio-level backtesting across multiple assets
+- Expanded unit-test coverage
 
-# Output Settings
-generate_plots: true      # Set to false to disable chart generation
-```
+## Portfolio relevance
 
-## 📦 Dependencies (requirements.txt)
+This project demonstrates **Python engineering, time-series analysis, quantitative reasoning, financial data processing, portfolio simulation, and risk measurement** through a reproducible backtesting workflow.
 
-This file lists all the Python libraries required by the project.
+## License
 
-```txt
-pandas
-numpy
-yfinance
-matplotlib
-seaborn
-scipy
-openpyxl
-pyyaml
-```
-
-## ❓ Common Issues & Fixes
-
-### Issue: `ModuleNotFoundError: No module named 'yaml'`
-- **Reason**: The `pyyaml` library is not installed correctly
-- **Solution**: Make sure you have activated your virtual environment and run `pip install pyyaml` or `pip install -r requirements.txt`
-
-### Issue: yfinance fails to download data (e.g., `[...]: No data found, symbol may be delisted`)
-- **Reason**: The ticker symbol might be incorrect, delisted, or not available for the specified date range
-- **Solution**: Double-check the ticker in `config.yaml`. Try a different symbol (e.g., 'SPY') or adjust the `start_date` and `end_date`
-
-## 📝 Future Enhancements
-
-This project provides a solid foundation. Here are some ideas for future improvements:
-
-- **Add More Indicators**: Integrate other technical indicators like RSI, MACD, or Bollinger Bands to create more complex strategies
-- **Parameter Optimization**: Implement a grid search or randomized search to automatically find the best-performing MA windows
-- **Improved Execution Model**: Simulate order types like limit and stop-loss orders for more realistic backtesting
-- **Unit Testing**: Add a suite of unit tests to ensure the reliability and accuracy of the backtesting engine's components
-- **Portfolio-Level Backtesting**: Extend the engine to test strategies across a portfolio of multiple assets simultaneously
-
-## 👨‍💻 Author & Contact
-
-This project was created by **Avi Nandipati**.
-
-- **Email**: nandipatiavinash19@gmail.com
-- **GitHub**: [@nandipatiavinash](https://github.com/nandipatiavinash)
-
-Feel free to reach out with any questions, suggestions, or collaboration opportunities!
-
-## 📜 License
-
-This project is licensed under the MIT License.
+MIT License.
